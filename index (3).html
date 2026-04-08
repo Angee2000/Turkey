@@ -2,201 +2,1579 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8">
-  <title>Antalya Trip</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Antalya Trip 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #08080e;
+      --surface: #0f0f18;
+      --surface2: #16161f;
+      --surface3: #1c1c28;
+      --border: rgba(255,255,255,0.06);
+      --border-hover: rgba(255,255,255,0.12);
+      --gold: #c9a84c;
+      --gold-light: #e8c96a;
+      --gold-dim: rgba(201,168,76,0.15);
+      --cyan: #4fc3f7;
+      --rose: #e8758a;
+      --text: #ede9e1;
+      --text-muted: rgba(237,233,225,0.5);
+      --text-dim: rgba(237,233,225,0.2);
+      --radius: 20px;
+      --radius-sm: 10px;
+      --shadow: 0 30px 80px rgba(0,0,0,0.6);
+      --glow: 0 0 40px rgba(201,168,76,0.12);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── NOISE TEXTURE OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    }
+
+    /* ─── SCROLLBAR ─── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+
+    /* ══════════════════════════════
+       HEADER
+    ══════════════════════════════ */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 500;
+      padding: 0 2.5rem;
+      background: rgba(8,8,14,0.82);
+      backdrop-filter: blur(24px) saturate(1.5);
+      -webkit-backdrop-filter: blur(24px) saturate(1.5);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.3s;
+    }
+    .header-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .logo span { color: var(--gold); }
+
+    nav { display: flex; gap: 2.5rem; align-items: center; }
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.25s;
+      position: relative;
+    }
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0; right: 0;
+      height: 1px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+    nav a:hover { color: var(--gold); }
+    nav a:hover::after { transform: scaleX(1); transform-origin: left; }
+
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      z-index: 10;
+    }
+    .menu-toggle span {
+      display: block;
+      width: 22px; height: 1.5px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: 0.35s cubic-bezier(0.4,0,0.2,1);
+    }
+    .menu-toggle.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .menu-toggle.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .menu-toggle.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    /* ══════════════════════════════
+       HERO
+    ══════════════════════════════ */
+    .hero {
+      position: relative;
+      height: 100svh;
+      min-height: 640px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: url('https://images.unsplash.com/photo-1589561084283-930aa7b1ce50?w=1800&q=85') center/cover no-repeat;
+      filter: brightness(0.28) saturate(1.3);
+      transform: scale(1.08);
+      animation: heroZoom 25s ease-in-out infinite alternate;
+      will-change: transform;
+    }
+    @keyframes heroZoom {
+      from { transform: scale(1.08); }
+      to { transform: scale(1.16); }
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(160deg, rgba(8,8,14,0.3) 0%, transparent 40%, rgba(8,8,14,0.85) 100%);
+    }
+    .hero-grain {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 60% 40%, rgba(201,168,76,0.06) 0%, transparent 70%);
+    }
+    .hero-content {
+      position: relative;
+      text-align: center;
+      padding: 2rem;
+      max-width: 860px;
+      animation: heroFadeUp 1.2s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    @keyframes heroFadeUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 2rem;
+      animation: heroFadeUp 1.2s cubic-bezier(0.22,1,0.36,1) 0.1s both;
+    }
+    .hero-eyebrow-line {
+      width: 32px; height: 1px;
+      background: var(--gold);
+      opacity: 0.6;
+    }
+    .hero-eyebrow-text {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(4rem, 12vw, 9.5rem);
+      font-weight: 300;
+      line-height: 0.9;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.3em;
+      color: var(--text);
+      animation: heroFadeUp 1.2s cubic-bezier(0.22,1,0.36,1) 0.15s both;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--gold-light);
+    }
+    .hero-sub {
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: var(--text-muted);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 3rem;
+      animation: heroFadeUp 1.2s cubic-bezier(0.22,1,0.36,1) 0.25s both;
+    }
+    .btn-hero {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: transparent;
+      border: 1px solid rgba(201,168,76,0.5);
+      color: var(--gold);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 14px 32px;
+      border-radius: 100px;
+      transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
+      animation: heroFadeUp 1.2s cubic-bezier(0.22,1,0.36,1) 0.35s both;
+    }
+    .btn-hero:hover {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: #000;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(201,168,76,0.25);
+    }
+    .btn-hero svg { transition: transform 0.3s; }
+    .btn-hero:hover svg { transform: translateX(4px); }
+
+    .hero-stats {
+      position: absolute;
+      bottom: 0;
+      left: 0; right: 0;
+      padding: 2.5rem;
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      border-top: 1px solid var(--border);
+      background: linear-gradient(to top, rgba(8,8,14,0.6), transparent);
+    }
+    .hero-stat {
+      text-align: center;
+      padding: 0 3rem;
+      position: relative;
+    }
+    .hero-stat + .hero-stat::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 10%; bottom: 10%;
+      width: 1px;
+      background: var(--border);
+    }
+    .hero-stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 600;
+      color: var(--gold);
+      line-height: 1;
+      display: block;
+    }
+    .hero-stat-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--text-muted);
+      margin-top: 4px;
+      display: block;
+    }
+
+    /* ══════════════════════════════
+       SECTION COMMONS
+    ══════════════════════════════ */
+    section { padding: 7rem 2.5rem; }
+    .section-header {
+      max-width: 1240px;
+      margin: 0 auto 5rem;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0 3rem;
+      align-items: start;
+    }
+    .section-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 5rem;
+      font-weight: 300;
+      color: var(--text-dim);
+      line-height: 1;
+      letter-spacing: -0.05em;
+      grid-row: 1 / 3;
+      align-self: center;
+      user-select: none;
+    }
+    .section-tag {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-tag::before {
+      content: '';
+      width: 20px; height: 1px;
+      background: var(--gold);
+      opacity: 0.5;
+    }
+    .section-header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.8rem, 5vw, 4.5rem);
+      font-weight: 400;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+    .section-desc {
+      grid-column: 2;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      max-width: 480px;
+      margin-top: 0.75rem;
+      line-height: 1.7;
+    }
+
+    /* ══════════════════════════════
+       ITINERARY CARDS
+    ══════════════════════════════ */
+    #activities { background: var(--bg); }
+
+    .timeline {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      transform: translateY(24px);
+      transition:
+        opacity 0.55s cubic-bezier(0.22,1,0.36,1),
+        transform 0.55s cubic-bezier(0.22,1,0.36,1),
+        border-color 0.3s,
+        box-shadow 0.35s;
+      cursor: default;
+    }
+    .card:hover {
+      border-color: var(--border-hover);
+      box-shadow: 0 24px 70px rgba(0,0,0,0.45), var(--glow);
+      transform: translateY(-6px) !important;
+    }
+    .card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .card-img-wrap {
+      position: relative;
+      overflow: hidden;
+      height: 210px;
+      flex-shrink: 0;
+    }
+    .card-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.4,0,0.2,1);
+      display: block;
+    }
+    .card:hover .card-image { transform: scale(1.05); }
+    .card-img-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(8,8,14,0.7) 0%, transparent 60%);
+    }
+    .card-img-day {
+      position: absolute;
+      top: 14px; left: 14px;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: rgba(8,8,14,0.75);
+      backdrop-filter: blur(8px);
+      padding: 5px 12px;
+      border-radius: 100px;
+      border: 1px solid rgba(201,168,76,0.2);
+    }
+    .card-img-price {
+      position: absolute;
+      bottom: 14px; right: 14px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--gold-light);
+      line-height: 1;
+    }
+
+    .card-body {
+      padding: 1.75rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.65rem;
+      font-weight: 600;
+      line-height: 1.15;
+      color: var(--text);
+    }
+    .card-desc {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+    .card-detail {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      font-style: italic;
+    }
+
+    /* Booking Buttons */
+    .card-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: auto;
+    }
+    .btn-book {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      padding: 7px 13px;
+      border-radius: 100px;
+      transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+      white-space: nowrap;
+    }
+    .btn-book:hover {
+      background: var(--gold-dim);
+      border-color: rgba(201,168,76,0.4);
+      color: var(--gold);
+      transform: translateY(-1px);
+    }
+
+    /* Maps Link */
+    .link-maps {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--cyan);
+      text-decoration: none;
+      opacity: 0.75;
+      transition: opacity 0.2s;
+    }
+    .link-maps:hover { opacity: 1; }
+
+    /* Video Link */
+    .video-link {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0.9rem 1rem;
+      text-decoration: none;
+      transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+      margin-top: 0.25rem;
+    }
+    .video-link:hover {
+      background: var(--surface3);
+      border-color: rgba(201,168,76,0.25);
+      transform: translateX(3px);
+    }
+    .video-link-icon {
+      width: 34px; height: 34px;
+      background: var(--gold-dim);
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold);
+      flex-shrink: 0;
+      transition: background 0.25s;
+    }
+    .video-link:hover .video-link-icon {
+      background: rgba(201,168,76,0.25);
+    }
+    .video-link-text { flex: 1; min-width: 0; }
+    .video-link-title {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .video-link-sub {
+      display: block;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+    .video-link-arrow {
+      color: var(--text-dim);
+      flex-shrink: 0;
+      transition: color 0.25s, transform 0.25s;
+    }
+    .video-link:hover .video-link-arrow {
+      color: var(--gold);
+      transform: translate(2px, -2px);
+    }
+    .video-links-col { display: flex; flex-direction: column; gap: 0.4rem; }
+
+    /* Notes pills */
+    .note-list {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+    .note-list li {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      padding: 4px 11px;
+      border-radius: 100px;
+      letter-spacing: 0.02em;
+    }
+    .note-list li::before {
+      content: "· ";
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    /* ══════════════════════════════
+       BUDGET
+    ══════════════════════════════ */
+    #prices {
+      background: var(--surface);
+      position: relative;
+      overflow: hidden;
+    }
+    #prices::before {
+      content: '';
+      position: absolute;
+      top: -200px; right: -200px;
+      width: 600px; height: 600px;
+      background: radial-gradient(ellipse, rgba(201,168,76,0.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .budget-grid {
+      max-width: 1240px;
+      margin: 0 auto 3rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .budget-item {
+      background: var(--bg);
+      padding: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      transition: background 0.25s;
+      opacity: 0;
+      transform: translateY(16px);
+      transition:
+        opacity 0.45s cubic-bezier(0.22,1,0.36,1),
+        transform 0.45s cubic-bezier(0.22,1,0.36,1),
+        background 0.25s;
+    }
+    .budget-item.visible { opacity: 1; transform: translateY(0); }
+    .budget-item:hover { background: var(--surface); }
+    .budget-day {
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 500;
+    }
+    .budget-activity {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-top: 2px;
+    }
+    .budget-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .price-summary {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 1.5rem;
+      align-items: stretch;
+    }
+    .price-total {
+      background: linear-gradient(135deg, rgba(201,168,76,0.1) 0%, rgba(79,195,247,0.05) 100%);
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: var(--radius);
+      padding: 3rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      text-align: center;
+    }
+    .price-total-label {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--text-muted);
+    }
+    .price-total-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 5.5rem;
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+    .price-total-note {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+    .price-info {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2.5rem;
+    }
+    .price-info h4 {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .price-info h4::before {
+      content: '';
+      width: 16px; height: 1px;
+      background: var(--gold);
+      opacity: 0.5;
+    }
+    .price-info-list { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+    .price-info-list li {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      padding-left: 1.25rem;
+      position: relative;
+      line-height: 1.5;
+    }
+    .price-info-list li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+      opacity: 0.6;
+    }
+
+    /* ══════════════════════════════
+       MAP
+    ══════════════════════════════ */
+    #map { background: var(--bg); }
+    .map-container {
+      max-width: 1240px;
+      margin: 0 auto;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      height: 480px;
+      box-shadow: var(--shadow);
+    }
+    .map-container iframe {
+      width: 100%; height: 100%;
+      border: none;
+      filter: brightness(0.8) saturate(0.7) contrast(1.1);
+    }
+
+    /* ══════════════════════════════
+       PACKING
+    ══════════════════════════════ */
+    #packing { background: var(--surface); }
+    .packing-grid {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.25rem;
+    }
+    .packing-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      transition: border-color 0.25s, box-shadow 0.25s;
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    .packing-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .packing-card:hover {
+      border-color: var(--border-hover);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+    }
+    .packing-card h4 {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .packing-card ul { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+    .packing-card ul li {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .packing-card ul li::before {
+      content: '';
+      width: 14px; height: 14px;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      flex-shrink: 0;
+      background: var(--surface);
+    }
+
+    /* ══════════════════════════════
+       TIPS
+    ══════════════════════════════ */
+    #tips { background: var(--bg); }
+    .tips-grid {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.25rem;
+    }
+    .tip-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    .tip-card.visible { opacity: 1; transform: translateY(0); }
+    .tip-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-3px);
+      box-shadow: 0 16px 50px rgba(0,0,0,0.35);
+    }
+    .tip-icon {
+      font-size: 1.6rem;
+      margin-bottom: 1.1rem;
+      display: block;
+    }
+    .tip-card h4 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.6rem;
+      letter-spacing: 0.01em;
+    }
+    .tip-card p {
+      font-size: 0.87rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* ══════════════════════════════
+       FOOTER
+    ══════════════════════════════ */
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 3rem 2.5rem;
+      text-align: center;
+    }
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 0.75rem;
+    }
+    .footer-logo span { color: var(--gold); }
+    footer p {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      line-height: 1.8;
+    }
+
+    /* ══════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════ */
+    @media (max-width: 900px) {
+      .section-header {
+        grid-template-columns: 1fr;
+      }
+      .section-num { display: none; }
+      .section-desc { grid-column: 1; }
+      .price-summary { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      header { padding: 0 1.25rem; }
+      nav {
+        display: none;
+        position: fixed;
+        top: 64px; left: 0; right: 0;
+        background: rgba(8,8,14,0.97);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+        padding: 0;
+        border-bottom: 1px solid var(--border);
+        z-index: 490;
+      }
+      nav.open { display: flex; }
+      nav a {
+        width: 100%;
+        text-align: center;
+        padding: 1.1rem 2rem;
+        border-bottom: 1px solid var(--border);
+        font-size: 0.82rem;
+        letter-spacing: 0.15em;
+      }
+      nav a::after { display: none; }
+      .menu-toggle { display: flex; }
+
+      section { padding: 5rem 1.25rem; }
+      .hero h1 { font-size: clamp(3.2rem, 14vw, 5.5rem); }
+      .hero-stats {
+        gap: 0;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        justify-content: flex-start;
+        scrollbar-width: none;
+        padding: 1.5rem 1.25rem;
+      }
+      .hero-stats::-webkit-scrollbar { display: none; }
+      .hero-stat { padding: 0 1.75rem; flex-shrink: 0; }
+      .timeline { grid-template-columns: 1fr; }
+      .budget-grid { grid-template-columns: 1fr 1fr; gap: 1px; }
+      .packing-grid, .tips-grid { grid-template-columns: 1fr; }
+      .price-total-value { font-size: 4rem; }
+    }
+
+    @media (max-width: 480px) {
+      .budget-grid { grid-template-columns: 1fr; }
+      .hero-stat-num { font-size: 1.7rem; }
+    }
+  </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">ANTALYA</div>
-  <div class="menu-toggle" onclick="toggleMenu()">☰</div>
-  <nav id="menu">
-    <a href="#home">Home</a>
-    <a href="#activities">Itinerario</a>
-    <a href="#prices">Prezzi</a>
-    <a href="#map">Mappa</a>
-  </nav>
+  <div class="header-inner">
+    <a href="#home" class="logo">Antalya <span>'26</span></a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+    <nav id="menu">
+      <a href="#home">Home</a>
+      <a href="#activities">Itinerario</a>
+      <a href="#prices">Budget</a>
+      <a href="#packing">Packing</a>
+      <a href="#tips">Tips</a>
+      <a href="#map">Mappa</a>
+    </nav>
+  </div>
 </header>
 
+<!-- ═══════ HERO ═══════ -->
 <section id="home" class="hero">
-  <h1>Estate Fuori di Testa</h1>
-  <p>8 giorni • Antalya • 6 amici</p>
-  <a href="#activities" class="btn">Scopri</a>
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-grain"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span class="hero-eyebrow-line"></span>
+      <span class="hero-eyebrow-text">Summer 2026 &nbsp;·&nbsp; Antalya</span>
+      <span class="hero-eyebrow-line"></span>
+    </div>
+    <h1>Estate<br><em>Fuori di</em><br>Testa</h1>
+    <p class="hero-sub">8 giorni &nbsp;&bull;&nbsp; Antalya &nbsp;&bull;&nbsp; 6 amici</p>
+    <a href="#activities" class="btn-hero">
+      Scopri il viaggio
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-num">8</span>
+      <span class="hero-stat-label">Giorni</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">6</span>
+      <span class="hero-stat-label">Amici</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">280€</span>
+      <span class="hero-stat-label">Attività</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">∞</span>
+      <span class="hero-stat-label">Ricordi</span>
+    </div>
+  </div>
 </section>
 
+<!-- ═══════ ITINERARIO ═══════ -->
 <section id="activities">
-  <h2>Itinerario</h2>
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <div>
+      <span class="section-tag">Il piano</span>
+      <h2>Itinerario</h2>
+    </div>
+    <p class="section-desc">Otto giorni di avventure sulla costa turca — storia, adrenalina, mare e nightlife.</p>
+  </div>
 
-  <div class="grid">
+  <div class="timeline">
 
-    <article class="card">
-      <h3>Day 1 – Arrival & Kaleiçi</h3>
-      <p class="subtitle">Arrivo ad Antalya, check-in e primo giro a Kaleiçi. Vicoli, porto e mare. Relax e prima sera tranquilla.</p>
-      <div class="day-meta">
-        <span>Prezzo stimato: 25 €</span>
-        <a href="https://www.booking.com" target="_blank" rel="noreferrer" class="btn-link">Booking</a>
+    <!-- DAY 1 -->
+    <article class="card" data-day="01">
+      <div class="card-img-wrap">
+        <img class="card-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdFQ0OyLDHya3G1oKlIUHSnqCzGASeDHZ0Qw&s" alt="Kaleiçi Antalya" loading="lazy">
+        <div class="card-img-overlay"></div>
+        <span class="card-img-day">Day 1</span>
+        <span class="card-img-price">25€</span>
       </div>
-      <p>Check-in + uscita pomeriggio.</p>
-      <a class="media-link" href="https://maps.app.goo.gl/YMTBmAuayTp2HQFJ6" target="_blank" rel="noreferrer">Activity Image</a>
-      <div class="video-embed">
-        <iframe src="https://www.tiktok.com/embed/v2/7516273759657921814" allow="autoplay; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      <div class="card-body">
+        <h3>Arrival & Kaleiçi</h3>
+        <p class="card-desc">Arrivo ad Antalya, check-in e primo giro a Kaleiçi. Vicoli storici, porto romano e primo tramonto sul Mediterraneo. Serata tranquilla con street food.</p>
+        <div class="card-actions">
+          <a href="https://www.booking.com/searchresults.html?ss=Antalya" target="_blank" rel="noreferrer" class="btn-book">🏨 Hotel</a>
+          <a href="https://www.getyourguide.it/antalya-l172/kaleiçi-walking-tour-t/" target="_blank" rel="noreferrer" class="btn-book">🗺 Tour</a>
+          <a href="https://maps.app.goo.gl/YMTBmAuayTp2HQFJ6" target="_blank" rel="noreferrer" class="link-maps">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Kaleiçi su Maps
+          </a>
+        </div>
+        <a href="https://www.tiktok.com/@lma_travel/video/7516273759657921814" target="_blank" rel="noreferrer" class="video-link">
+          <div class="video-link-icon">
+            <svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor"><polygon points="0,0 12,7 0,14"/></svg>
+          </div>
+          <div class="video-link-text">
+            <span class="video-link-title">Guarda il video</span>
+            <span class="video-link-sub">TikTok · Kaleiçi vibes</span>
+          </div>
+          <svg class="video-link-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
+        </a>
+        <ul class="note-list">
+          <li>Cena street food</li>
+          <li>Scarpe comode</li>
+          <li>Check-in presto</li>
+        </ul>
       </div>
-      <ul class="note-list">
-        <li>Apri</li>
-        <li>Cena street food.</li>
-        <li>Scarpe comode.</li>
-      </ul>
     </article>
 
-    <article class="card">
-      <h3>Day 2 – Land of Legends</h3>
-      <p class="subtitle">Giornata intera al parco: scivoli, attrazioni, show e sera spettacolo.</p>
-      <div class="day-meta">
-        <span>Prezzo stimato: 35 €</span>
-        <a href="https://www.tiqets.com/it/land-of-legends-biglietti-l149377/" target="_blank" rel="noreferrer" class="btn-link">Booking</a>
+    <!-- DAY 2 -->
+    <article class="card" data-day="02">
+      <div class="card-img-wrap">
+        <img class="card-image" src="https://images.unsplash.com/photo-1582610285985-a42d9193f2fd?w=800&q=80" alt="Land of Legends Water Park" loading="lazy">
+        <div class="card-img-overlay"></div>
+        <span class="card-img-day">Day 2</span>
+        <span class="card-img-price">35€</span>
       </div>
-      <p>Partenza presto. Rientro sera.</p>
-      <img class="activity-image" src="https://cdn.getyourguide.com/image/format=auto,fit=crop,gravity=center,quality=60,width=1280,dpr=1/review_img/ca3df0938f946d4c2afbcddb52bd2299eb5dcb1f152edf2da0c52eecd7138d5c.jpg" alt="Land of Legends">
-      <div class="video-row">
-        <iframe src="https://www.tiktok.com/embed/v2/7489052901067820310" allow="autoplay; fullscreen; picture-in-picture" loading="lazy"></iframe>
-        <iframe src="https://www.tiktok.com/embed/v2/7492079033061035282" allow="autoplay; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      <div class="card-body">
+        <h3>Land of Legends</h3>
+        <p class="card-desc">Giornata intera al parco acquatico più grande della Turchia: scivoli, attrazioni adrenaliniche, show serali e musica live.</p>
+        <p class="card-detail">Partenza presto · Rientro sera</p>
+        <div class="card-actions">
+          <a href="https://www.tiqets.com/it/land-of-legends-biglietti-l149377/" target="_blank" rel="noreferrer" class="btn-book">🎟 Biglietti</a>
+          <a href="https://www.getyourguide.it/antalya-l172/land-of-legends/" target="_blank" rel="noreferrer" class="btn-book">📋 Info</a>
+        </div>
+        <a href="https://www.tiktok.com/@user/video/7489052901067820310" target="_blank" rel="noreferrer" class="video-link">
+          <div class="video-link-icon">
+            <svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor"><polygon points="0,0 12,7 0,14"/></svg>
+          </div>
+          <div class="video-link-text">
+            <span class="video-link-title">Guarda il video</span>
+            <span class="video-link-sub">TikTok · Parco acquatico</span>
+          </div>
+          <svg class="video-link-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
+        </a>
+        <ul class="note-list">
+          <li>Costume</li>
+          <li>Crema solare</li>
+          <li>Telefono protetto</li>
+        </ul>
       </div>
-      <ul class="note-list">
-        <li>Apri</li>
-        <li>Costume, crema solare.</li>
-        <li>Telefono protetto.</li>
-      </ul>
     </article>
 
-    <article class="card">
-      <h3>Day 3 – Rafting + Zipline + Quad</h3>
-      <p class="subtitle">Giornata super adrenalinica: rafting, zipline, jeep e quad.</p>
-      <div class="day-meta">
-        <span>Prezzo stimato: 40 €</span>
-        <a href="https://www.getyourguide.it/adalia-l172/antalya-rafting-4-in-1-zipline-quad-buggy-tour-in-jeep-con-pranzo-t440531/" target="_blank" rel="noreferrer" class="btn-link">Booking</a>
+    <!-- DAY 3 -->
+    <article class="card" data-day="03">
+      <div class="card-img-wrap">
+        <img class="card-image" src="https://images.unsplash.com/photo-1530866495561-507c9faab2ed?w=800&q=80" alt="Rafting canyon Turchia" loading="lazy">
+        <div class="card-img-overlay"></div>
+        <span class="card-img-day">Day 3</span>
+        <span class="card-img-price">40€</span>
       </div>
-      <p>Pick-up mattino, rientro pomeriggio.</p>
-      <img class="activity-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwOBnh7LQYJFa9MnAinYOVBNE1ePGYrgfPPQ&s" alt="Rafting Antalya">
-      <div class="video-embed">
-        <iframe src="https://www.tiktok.com/embed/v2/7516893172102860040" allow="autoplay; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      <div class="card-body">
+        <h3>Rafting + Zipline + Quad</h3>
+        <p class="card-desc">Giornata super adrenalinica nel canyon del fiume Köprüçay: rafting nelle rapide, zipline panoramica, jeep safari e quad. Pranzo incluso.</p>
+        <p class="card-detail">Pick-up mattino · Rientro pomeriggio tardi</p>
+        <div class="card-actions">
+          <a href="https://www.getyourguide.it/adalia-l172/antalya-rafting-4-in-1-zipline-quad-buggy-tour-in-jeep-con-pranzo-t440531/" target="_blank" rel="noreferrer" class="btn-book">🎟 Prenota</a>
+          <a href="https://www.viator.com/Antalya-tours/Outdoor-Activities/d586-g7-c69" target="_blank" rel="noreferrer" class="btn-book">📋 Alternative</a>
+        </div>
+        <a href="https://www.tiktok.com/@user/video/7516893172102860040" target="_blank" rel="noreferrer" class="video-link">
+          <div class="video-link-icon">
+            <svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor"><polygon points="0,0 12,7 0,14"/></svg>
+          </div>
+          <div class="video-link-text">
+            <span class="video-link-title">Guarda il video</span>
+            <span class="video-link-sub">TikTok · Rafting adventure</span>
+          </div>
+          <svg class="video-link-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
+        </a>
+        <ul class="note-list">
+          <li>Vestiti sportivi</li>
+          <li>Asciugamano</li>
+          <li>Scarpe chiuse</li>
+        </ul>
       </div>
-      <ul class="note-list">
-        <li>Apri</li>
-        <li>Vestiti sportivi.</li>
-        <li>Asciugamano.</li>
-      </ul>
     </article>
 
-    <article class="card">
-      <h3>Day 4 – Diving Kemer</h3>
-      <p class="subtitle">Immersioni guidate con pranzo incluso. Mare limpido e relax.</p>
-      <div class="day-meta">
-        <span>Prezzo stimato: 45 €</span>
-        <a href="https://www.getyourguide.it/kemer-l1729/antalyakemer-esperienza-di-immersione-subacquea-con-2-immersioni-e-pranzo-t60602/" target="_blank" rel="noreferrer" class="btn-link">Booking</a>
+    <!-- DAY 4 -->
+    <article class="card" data-day="04">
+      <div class="card-img-wrap">
+        <img class="card-image" src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&q=80" alt="Diving underwater Turchia" loading="lazy">
+        <div class="card-img-overlay"></div>
+        <span class="card-img-day">Day 4</span>
+        <span class="card-img-price">45€</span>
       </div>
-      <p>Rientro + passeggiata Kemer.</p>
-      <img class="activity-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzDjHJiJHcggwIitd8tMLmWXd5ELnX-1k1cQ&s" alt="Diving Kemer">
-      <div class="video-embed">
-        <iframe src="https://www.tiktok.com/embed/v2/7547861779590778119" allow="autoplay; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      <div class="card-body">
+        <h3>Diving Kemer</h3>
+        <p class="card-desc">Immersioni guidate a Kemer con 2 dive in acque cristalline, pranzo incluso a bordo. Nessuna esperienza richiesta. Pomeriggio passeggiata nel porto di Kemer.</p>
+        <p class="card-detail">Rientro pomeriggio + passeggiata Kemer</p>
+        <div class="card-actions">
+          <a href="https://www.getyourguide.it/kemer-l1729/antalyakemer-esperienza-di-immersione-subacquea-con-2-immersioni-e-pranzo-t60602/" target="_blank" rel="noreferrer" class="btn-book">🤿 Prenota</a>
+          <a href="https://www.viator.com/Kemer-tours/Scuba-Diving/d25943-g27-c105" target="_blank" rel="noreferrer" class="btn-book">📋 Viator</a>
+        </div>
+        <a href="https://www.tiktok.com/@user/video/7547861779590778119" target="_blank" rel="noreferrer" class="video-link">
+          <div class="video-link-icon">
+            <svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor"><polygon points="0,0 12,7 0,14"/></svg>
+          </div>
+          <div class="video-link-text">
+            <span class="video-link-title">Guarda il video</span>
+            <span class="video-link-sub">TikTok · Diving experience</span>
+          </div>
+          <svg class="video-link-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
+        </a>
+        <ul class="note-list">
+          <li>Costume</li>
+          <li>Crema solare</li>
+          <li>Occhiali da sole</li>
+        </ul>
       </div>
-      <ul class="note-list">
-        <li>Apri</li>
-        <li>Costume.</li>
-        <li>Crema solare.</li>
-      </ul>
     </article>
 
-    <article class="card">
-      <h3>Day 5 – Jet Ski + Parasailing + Boat Party</h3>
-      <p class="subtitle">Mattina sport acquatici, pomeriggio boat party con musica e tuffi.</p>
-      <div class="day-meta">
-        <span>Prezzo stimato: 50 €</span>
+    <!-- DAY 5 -->
+    <article class="card" data-day="05">
+      <div class="card-img-wrap">
+        <img class="card-image" src="https://images.unsplash.com/photo-1530053969600-caed2596d242?w=800&q=80" alt="Jet ski e parasailing mare" loading="lazy">
+        <div class="card-img-overlay"></div>
+        <span class="card-img-day">Day 5</span>
+        <span class="card-img-price">50€</span>
       </div>
-      <div class="day-links">
-        <a href="https://www.viator.com/it-IT/tours/Antalya/PARASAILING-WATER-ACTIVITY/d586-66754P13" target="_blank" rel="noreferrer" class="btn-link">Parasailing</a>
-        <a href="https://www.getyourguide.com/antalya-province-l855/mega-star-boat-tour-t337611/" target="_blank" rel="noreferrer" class="btn-link">Boat Party</a>
+      <div class="card-body">
+        <h3>Jet Ski + Parasailing + Boat Party</h3>
+        <p class="card-desc">Mattina adrenalinica: jet ski in mare aperto e volo in parasailing a 150m d'altezza. Pomeriggio boat party con musica, tuffi e drinks.</p>
+        <p class="card-detail">Pranzo veloce · Sera libera</p>
+        <div class="card-actions">
+          <a href="https://www.viator.com/it-IT/tours/Antalya/PARASAILING-WATER-ACTIVITY/d586-66754P13" target="_blank" rel="noreferrer" class="btn-book">🪂 Parasailing</a>
+          <a href="https://www.getyourguide.com/antalya-province-l855/mega-star-boat-tour-t337611/" target="_blank" rel="noreferrer" class="btn-book">🚢 Boat Party</a>
+          <a href="https://passionantalya.com" target="_blank" rel="noreferrer" class="btn-book">🏄 Jet Ski</a>
+        </div>
+        <div class="video-links-col">
+          <a href="https://www.tiktok.com/@m_mert50/video/7512831025018309896" target="_blank" rel="noreferrer" class="video-link">
+            <div class="video-link-icon">
+              <svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor"><polygon points="0,0 12,7 0,14"/></svg>
+            </div>
+            <div class="video-link-text">
+              <span class="video-link-title">Boat Party</span>
+              <span class="video-link-sub">TikTok · Boat party vibes</span>
+            </div>
+            <svg class="video-link-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
+          </a>
+          <a href="https://www.tiktok.com/@eminhan.pak/video/7545038036334152961" target="_blank" rel="noreferrer" class="video-link">
+            <div class="video-link-icon">
+              <svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor"><polygon points="0,0 12,7 0,14"/></svg>
+            </div>
+            <div class="video-link-text">
+              <span class="video-link-title">Parasailing</span>
+              <span class="video-link-sub">TikTok · Nel cielo di Antalya</span>
+            </div>
+            <svg class="video-link-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
+          </a>
+          <a href="https://www.tiktok.com/@tilisude_/video/7532420715975331092" target="_blank" rel="noreferrer" class="video-link">
+            <div class="video-link-icon">
+              <svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor"><polygon points="0,0 12,7 0,14"/></svg>
+            </div>
+            <div class="video-link-text">
+              <span class="video-link-title">Jet Ski</span>
+              <span class="video-link-sub">TikTok · Velocità sul mare</span>
+            </div>
+            <svg class="video-link-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
+          </a>
+        </div>
+        <ul class="note-list">
+          <li>Costume + cambio</li>
+          <li>Asciugamano</li>
+          <li>Tanta energia</li>
+        </ul>
       </div>
-      <p>Pranzo veloce + sera libera.</p>
-      <img class="activity-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzDjHJiJHcggwIitd8tMLmWXd5ELnX-1k1cQ&s" alt="Boat Party Antalya">
-      <div class="video-embed">
-        <iframe src="https://www.tiktok.com/embed/v2/7534438951373917448" allow="autoplay; fullscreen; picture-in-picture" loading="lazy"></iframe>
-      </div>
-      <ul class="note-list">
-        <li>Apri</li>
-        <li>Costume, cambio vestiti.</li>
-        <li>Energia.</li>
-      </ul>
     </article>
 
-    <article class="card">
-      <h3>Day 6 – Beach + Party</h3>
-      <p class="subtitle">Relax totale in spiaggia Konyaaltı, attività mare leggere e sera discoteca.</p>
-      <div class="day-meta">
-        <span>Prezzo stimato: 40 €</span>
-        <span>Cerca: Aura Club Kemer / Inferno Club</span>
+    <!-- DAY 6 -->
+    <article class="card" data-day="06">
+      <div class="card-img-wrap">
+        <img class="card-image" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80" alt="Spiaggia Konyaalti Antalya" loading="lazy">
+        <div class="card-img-overlay"></div>
+        <span class="card-img-day">Day 6</span>
+        <span class="card-img-price">40€</span>
       </div>
-      <p>Giornata chill + festa sera.</p>
-      <img class="activity-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnn6rv190srOTM_x0NSekEMsoOQ3KmeNAQVw&s" alt="Beach party Antalya">
-      <div class="video-embed">
-        <iframe src="https://www.tiktok.com/embed/v2/7482819616230673686" allow="autoplay; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      <div class="card-body">
+        <h3>Beach + Party</h3>
+        <p class="card-desc">Relax totale sulla spiaggia di Konyaalti, mare turchese e sdraio al tramonto. Serata in discoteca con i migliori club di Antalya.</p>
+        <p class="card-detail">Giornata chill + festa la sera</p>
+        <div class="card-actions">
+          <a href="https://www.google.com/search?q=aura+club+kemer+antalya" target="_blank" rel="noreferrer" class="btn-book">🎉 Aura Club</a>
+          <a href="https://www.google.com/search?q=inferno+club+kemer+antalya" target="_blank" rel="noreferrer" class="btn-book">🔥 Inferno</a>
+        </div>
+        <a href="https://www.tiktok.com/@antalyacityvibe/video/7516245021469707528" target="_blank" rel="noreferrer" class="video-link">
+          <div class="video-link-icon">
+            <svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor"><polygon points="0,0 12,7 0,14"/></svg>
+          </div>
+          <div class="video-link-text">
+            <span class="video-link-title">Guarda il video</span>
+            <span class="video-link-sub">TikTok · Konyaalti beach vibes</span>
+          </div>
+          <svg class="video-link-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
+        </a>
+        <ul class="note-list">
+          <li>Spiaggia gratuita</li>
+          <li>Drink al tramonto</li>
+          <li>Abiti da sera</li>
+        </ul>
       </div>
-      <ul class="note-list">
-        <li>Apri</li>
-        <li>Spiaggia gratuita.</li>
-        <li>Drink al tramonto.</li>
-        <li>Club la sera.</li>
-      </ul>
     </article>
 
-    <article class="card">
-      <h3>Day 7 – Cable Car + Relax</h3>
-      <p class="subtitle">Funivia Monte Tahtalı con vista incredibile. Ultimo mare e cena finale.</p>
-      <div class="day-meta">
-        <span>Prezzo stimato: 35 €</span>
-        <a href="https://www.getyourguide.it/kemer-l1729/kemer-biglietto-della-funivia-olympos-teleferik-con-ritiro-opzionale-t425052/" target="_blank" rel="noreferrer" class="btn-link">Booking</a>
+    <!-- DAY 7 -->
+    <article class="card" data-day="07">
+      <div class="card-img-wrap">
+        <img class="card-image" src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80" alt="Cable car montagna panorama" loading="lazy">
+        <div class="card-img-overlay"></div>
+        <span class="card-img-day">Day 7</span>
+        <span class="card-img-price">35€</span>
       </div>
-      <p>Ultimo giro e souvenir.</p>
-      <img class="activity-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwOBnh7LQYJFa9MnAinYOVBNE1ePGYrgfPPQ&s" alt="Teleferica Monte Tahtalı">
-      <div class="video-embed">
-        <iframe src="https://www.tiktok.com/embed/v2/7547861779590778119" allow="autoplay; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      <div class="card-body">
+        <h3>Cable Car Tahtali + Relax</h3>
+        <p class="card-desc">Funivia fino a 2365m sul Monte Olimpo Tahtali: vista mozzafiato su Kemer e il Mediterraneo. Ultimo mare e cena finale tutti insieme.</p>
+        <p class="card-detail">Mattina funivia · Pomeriggio mare · Cena finale</p>
+        <div class="card-actions">
+          <a href="https://www.getyourguide.it/kemer-l1729/kemer-biglietto-della-funivia-olympos-teleferik-con-ritiro-opzionale-t425052/" target="_blank" rel="noreferrer" class="btn-book">🎟 Prenota</a>
+          <a href="https://www.olymposteleferik.com" target="_blank" rel="noreferrer" class="btn-book">🌐 Sito</a>
+        </div>
+        <a href="https://www.tiktok.com/@lma_travel/video/7482819616230673686" target="_blank" rel="noreferrer" class="video-link">
+          <div class="video-link-icon">
+            <svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor"><polygon points="0,0 12,7 0,14"/></svg>
+          </div>
+          <div class="video-link-text">
+            <span class="video-link-title">Guarda il video</span>
+            <span class="video-link-sub">TikTok · Vista panoramica</span>
+          </div>
+          <svg class="video-link-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
+        </a>
+        <ul class="note-list">
+          <li>Giacca leggera</li>
+          <li>Macchina fotografica</li>
+          <li>Souvenir</li>
+          <li>Cena finale</li>
+        </ul>
       </div>
-      <ul class="note-list">
-        <li>Apri</li>
-        <li>Foto.</li>
-        <li>Souvenir.</li>
-        <li>Cena finale.</li>
-      </ul>
     </article>
 
-    <article class="card">
-      <h3>Day 8 – Departure</h3>
-      <p class="subtitle">Colazione, relax e partenza.</p>
-      <div class="day-meta">
-        <span>Prezzo stimato: 10 €</span>
-        <a href="https://maps.app.goo.gl/YMTBmAuayTp2HQFJ6" target="_blank" rel="noreferrer" class="btn-link">Departure Info</a>
+    <!-- DAY 8 -->
+    <article class="card" data-day="08">
+      <div class="card-img-wrap">
+        <img class="card-image" src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&q=80" alt="Aeroporto partenza volo" loading="lazy">
+        <div class="card-img-overlay"></div>
+        <span class="card-img-day">Day 8</span>
+        <span class="card-img-price">10€</span>
       </div>
-      <p>Check-out + aeroporto.</p>
-      <a class="media-link" href="https://maps.app.goo.gl/YMTBmAuayTp2HQFJ6" target="_blank" rel="noreferrer">Activity Image</a>
-      <div class="video-embed empty">Video: N/A</div>
-      <ul class="note-list">
-        <li>Apri</li>
-        <li>Controlla documenti e voli.</li>
-      </ul>
+      <div class="card-body">
+        <h3>Departure 🛫</h3>
+        <p class="card-desc">Colazione con calma, ultimo giro di souvenir e check-out. Transfer per l'aeroporto di Antalya e arrivederci, estate.</p>
+        <p class="card-detail">Check-out + aeroporto</p>
+        <div class="card-actions">
+          <a href="https://www.havalimani.com/antalya-airport" target="_blank" rel="noreferrer" class="btn-book">✈️ Aeroporto</a>
+          <a href="https://maps.app.goo.gl/YMTBmAuayTp2HQFJ6" target="_blank" rel="noreferrer" class="btn-book">🚌 Transfer</a>
+        </div>
+        <ul class="note-list">
+          <li>Documenti di viaggio</li>
+          <li>Check voli</li>
+          <li>2h prima in aeroporto</li>
+          <li>Souvenir</li>
+        </ul>
+      </div>
     </article>
 
   </div>
 </section>
 
+<!-- ═══════ BUDGET ═══════ -->
 <section id="prices">
-  <h2>Prezzi</h2>
-  <p>Totale stimato attività: 280 €</p>
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <div>
+      <span class="section-tag">Pianificazione</span>
+      <h2>Budget</h2>
+    </div>
+    <p class="section-desc">Stima delle attività a persona — escluso voli e hotel.</p>
+  </div>
+
+  <div class="budget-grid">
+    <div class="budget-item">
+      <div>
+        <div class="budget-day">Day 1</div>
+        <div class="budget-activity">Arrival & Kaleiçi</div>
+      </div>
+      <div class="budget-price">25€</div>
+    </div>
+    <div class="budget-item">
+      <div>
+        <div class="budget-day">Day 2</div>
+        <div class="budget-activity">Land of Legends</div>
+      </div>
+      <div class="budget-price">35€</div>
+    </div>
+    <div class="budget-item">
+      <div>
+        <div class="budget-day">Day 3</div>
+        <div class="budget-activity">Rafting + Zipline + Quad</div>
+      </div>
+      <div class="budget-price">40€</div>
+    </div>
+    <div class="budget-item">
+      <div>
+        <div class="budget-day">Day 4</div>
+        <div class="budget-activity">Diving Kemer</div>
+      </div>
+      <div class="budget-price">45€</div>
+    </div>
+    <div class="budget-item">
+      <div>
+        <div class="budget-day">Day 5</div>
+        <div class="budget-activity">Jet Ski + Parasailing + Boat</div>
+      </div>
+      <div class="budget-price">50€</div>
+    </div>
+    <div class="budget-item">
+      <div>
+        <div class="budget-day">Day 6</div>
+        <div class="budget-activity">Beach + Party</div>
+      </div>
+      <div class="budget-price">40€</div>
+    </div>
+    <div class="budget-item">
+      <div>
+        <div class="budget-day">Day 7</div>
+        <div class="budget-activity">Cable Car Tahtali</div>
+      </div>
+      <div class="budget-price">35€</div>
+    </div>
+    <div class="budget-item">
+      <div>
+        <div class="budget-day">Day 8</div>
+        <div class="budget-activity">Departure</div>
+      </div>
+      <div class="budget-price">10€</div>
+    </div>
+  </div>
+
+  <div class="price-summary">
+    <div class="price-total">
+      <span class="price-total-label">Totale stimato attività</span>
+      <span class="price-total-value">280€</span>
+      <span class="price-total-note">a persona · 8 giorni</span>
+    </div>
+    <div class="price-info">
+      <h4>Note sul budget</h4>
+      <ul class="price-info-list">
+        <li>I prezzi sono stime indicative per le attività</li>
+        <li>Voli Milano–Antalya: ~150–250€ a/r (cerca su Skyscanner)</li>
+        <li>Hotel 7 notti in 3 stelle: ~50–80€/notte per camera doppia</li>
+        <li>Cibo e bevande: ~20–30€/giorno</li>
+        <li>Budget totale stimato a persona: ~800–1000€</li>
+        <li>Prenotare le attività in anticipo per avere posti garantiti</li>
+        <li>Cambia €/TRY all'arrivo negli exchange in città (migliore tasso)</li>
+      </ul>
+    </div>
+  </div>
 </section>
 
+<!-- ═══════ PACKING LIST ═══════ -->
+<section id="packing">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <div>
+      <span class="section-tag">Preparazione</span>
+      <h2>Packing List</h2>
+    </div>
+    <p class="section-desc">Tutto quello che devi portare per l'estate più epica.</p>
+  </div>
+  <div class="packing-grid">
+    <div class="packing-card">
+      <h4>☀️ Spiaggia & Mare</h4>
+      <ul>
+        <li>Costumi (almeno 2)</li>
+        <li>Crema solare SPF 50+</li>
+        <li>Asciugamano telo mare</li>
+        <li>Occhiali da sole</li>
+        <li>Ciabatte</li>
+        <li>Borsa impermeabile</li>
+      </ul>
+    </div>
+    <div class="packing-card">
+      <h4>🎽 Sport & Avventura</h4>
+      <ul>
+        <li>Scarpe da trekking/chiuse</li>
+        <li>Vestiti sportivi</li>
+        <li>Zaino piccolo</li>
+        <li>Custodia impermeabile tel.</li>
+        <li>Asciugamano compatto</li>
+      </ul>
+    </div>
+    <div class="packing-card">
+      <h4>🌙 Sera & Nightlife</h4>
+      <ul>
+        <li>Abiti estivi da sera</li>
+        <li>Scarpe eleganti / sneakers</li>
+        <li>Profumo</li>
+        <li>Cambio completo Day 5</li>
+      </ul>
+    </div>
+    <div class="packing-card">
+      <h4>💊 Salute & Sicurezza</h4>
+      <ul>
+        <li>Kit pronto soccorso</li>
+        <li>Antidolorifico</li>
+        <li>Antidiarroico</li>
+        <li>Protezione labbre SPF</li>
+        <li>Antizanzare</li>
+      </ul>
+    </div>
+    <div class="packing-card">
+      <h4>📱 Tech</h4>
+      <ul>
+        <li>Power bank</li>
+        <li>Adattatore universale</li>
+        <li>Action cam / GoPro</li>
+        <li>Cuffiette</li>
+        <li>Caricatori</li>
+      </ul>
+    </div>
+    <div class="packing-card">
+      <h4>📄 Documenti</h4>
+      <ul>
+        <li>Passaporto (valido 6 mesi)</li>
+        <li>Volo + hotel stampati</li>
+        <li>Assicurazione viaggio</li>
+        <li>Contanti in € + carta</li>
+        <li>Numeri emergenza</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ TIPS ═══════ -->
+<section id="tips">
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <div>
+      <span class="section-tag">Info utili</span>
+      <h2>Travel Tips</h2>
+    </div>
+    <p class="section-desc">Tutto quello che devi sapere prima di partire per Antalya.</p>
+  </div>
+  <div class="tips-grid">
+    <div class="tip-card">
+      <span class="tip-icon">🛂</span>
+      <h4>Visto & Documenti</h4>
+      <p>Gli italiani possono entrare in Turchia con la carta d'identità o il passaporto. Nessun visto richiesto per soggiorni fino a 90 giorni.</p>
+    </div>
+    <div class="tip-card">
+      <span class="tip-icon">💸</span>
+      <h4>Cambio Valuta</h4>
+      <p>Cambia euro in lire turche (TRY) all'arrivo negli exchange in città: il tasso è molto migliore che in aeroporto. Evita le carte con commissioni alte.</p>
+    </div>
+    <div class="tip-card">
+      <span class="tip-icon">📱</span>
+      <h4>SIM Locale</h4>
+      <p>Acquista una SIM turistica all'aeroporto (Turkcell o Vodafone Turchia). Dati illimitati per 8 giorni a circa 10–15€. Utile per Maps e WhatsApp.</p>
+    </div>
+    <div class="tip-card">
+      <span class="tip-icon">🚌</span>
+      <h4>Trasporti</h4>
+      <p>Il dolmuş (minibus) è economico e arriva ovunque. Per escursioni usate i tour organizzati con pick-up incluso. Uber funziona ad Antalya città.</p>
+    </div>
+    <div class="tip-card">
+      <span class="tip-icon">🌡️</span>
+      <h4>Clima</h4>
+      <p>In estate le temperature superano i 35–40°C. Indossate crema solare ogni giorno, evitate il sole nelle ore centrali (12–15) e bevete molta acqua.</p>
+    </div>
+    <div class="tip-card">
+      <span class="tip-icon">🍽️</span>
+      <h4>Cibo & Bevande</h4>
+      <p>Assaggiate il gözleme, il kebab dürüm e il baklava. L'acqua del rubinetto non è potabile: comprate bottiglie. Un pasto locale costa 3–6€.</p>
+    </div>
+    <div class="tip-card">
+      <span class="tip-icon">🏥</span>
+      <h4>Emergenze</h4>
+      <p>Pronto soccorso: 112. Polizia: 155. Portate una copia dell'assicurazione viaggio. Gli ospedali privati hanno spesso staff anglofono.</p>
+    </div>
+    <div class="tip-card">
+      <span class="tip-icon">⏰</span>
+      <h4>Fuso Orario</h4>
+      <p>La Turchia è UTC+3, quindi 2 ore avanti rispetto all'Italia in estate. Tenetelo a mente per i voli e le attività mattutine.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ MAP ═══════ -->
 <section id="map">
-  <h2>Mappa</h2>
-  <iframe src="https://maps.google.com/maps?q=antalya&z=10&output=embed"></iframe>
+  <div class="section-header">
+    <span class="section-num">05</span>
+    <div>
+      <span class="section-tag">Dove siamo</span>
+      <h2>Mappa</h2>
+    </div>
+    <p class="section-desc">Antalya e dintorni — Kemer, Kaleiçi, Konyaalti.</p>
+  </div>
+  <div class="map-container">
+    <iframe src="https://maps.google.com/maps?q=antalya&z=10&output=embed" loading="lazy" title="Mappa Antalya"></iframe>
+  </div>
 </section>
 
-<script src="script.js"></script>
+<footer>
+  <div class="footer-logo">Antalya <span>'26</span></div>
+  <p>Estate fuori di testa 🌊</p>
+  <p>Fatto con ❤️ per 6 amici</p>
+</footer>
+
+<script>
+  // ─── MENU TOGGLE ───
+  function toggleMenu() {
+    const menu = document.getElementById('menu');
+    const toggle = document.getElementById('menuToggle');
+    menu.classList.toggle('open');
+    toggle.classList.toggle('open');
+  }
+  document.querySelectorAll('nav a').forEach(function(link) {
+    link.addEventListener('click', function() {
+      if (window.innerWidth <= 768) {
+        document.getElementById('menu').classList.remove('open');
+        document.getElementById('menuToggle').classList.remove('open');
+      }
+    });
+  });
+
+  // ─── INTERSECTION OBSERVER ───
+  const observerOpts = { threshold: 0.08, rootMargin: '0px 0px -40px 0px' };
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOpts);
+
+  // Cards
+  document.querySelectorAll('.card').forEach(function(el, i) {
+    el.style.transitionDelay = (i % 4) * 0.07 + 's';
+    observer.observe(el);
+  });
+
+  // Budget items
+  document.querySelectorAll('.budget-item').forEach(function(el, i) {
+    el.style.transitionDelay = i * 0.04 + 's';
+    observer.observe(el);
+  });
+
+  // Packing + tip cards
+  document.querySelectorAll('.packing-card, .tip-card').forEach(function(el, i) {
+    el.style.transition = 'opacity 0.5s cubic-bezier(0.22,1,0.36,1) ' + (i * 0.06) + 's, transform 0.5s cubic-bezier(0.22,1,0.36,1) ' + (i * 0.06) + 's, border-color 0.25s, box-shadow 0.25s, transform 0.25s';
+    observer.observe(el);
+  });
+</script>
 </body>
 </html>
